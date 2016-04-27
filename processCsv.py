@@ -1,6 +1,11 @@
 import csv
 import argparse
 import requests
+import json
+
+class mydict(dict):
+        def __str__(self):
+            return json.dumps(self)
 
 parser = argparse.ArgumentParser(description='Process a list of IPTV changes.')
 parser.add_argument('--csvFile')
@@ -24,8 +29,9 @@ for line in updates:
     else:
         continue
 
-
+body = mydict(payload)
+print body
 url = 'http://206.174.165.241/cgi-bin/api/adddrop.cgi'
-response = requests.post(url, data=payload)
+response = requests.post(url, data=body)
 
 print response
